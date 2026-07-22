@@ -1,0 +1,127 @@
+// Horizon — schéma de base de données
+// Alternative à Indeed pour l'Afrique
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum Role {
+  CANDIDATE
+  RECRUITER
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  REMOTE
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  // Absent pour un compte créé uniquement via un fournisseur social
+  passwordHash String?
+  name         String
+  role         Role
+  image        String?
+  // Profil candidat
+  title        String?  // ex: "Développeur Fullstack"
+  bio          String?
+  phone        String?
+  location     String?
+  cvUrl        String?
+  cvFileName   String?
+  // Profil recruteur / entreprise
+  companyName  String?
+  logoUrl      String?
+  createdAt    DateTime @default(now())
+
+  jobs          Job[]          @relation("RecruiterJobs")
+  applications  Application[]  @relation("CandidateApplications")
+  oauthAccounts OAuthAccount[]
+}
+
+enum OAuthProvider {
+  GOOGLE
+  APPLE
+  FACEBOOK
+  LINKEDIN
+}
+
+/// Un compte social lié à un utilisateur Horizon (un utilisateur peut
+/// lier plusieurs fournisseurs à terme, ou se connecter par mot de passe).
+model OAuthAccount {
+  id                String        @id @default(cuid())
+  provider          OAuthProvider
+  providerAccountId String
+  createdAt         DateTime      @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  jobs  Job[]
+}
+
+model Job {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  companyName  String
+  location     String
+  type         JobType  @default(FULL_TIME)
+  salaryMin    Int?
+  salaryMax    Int?
+  currency     String   @default("XOF")
+  // Détails enrichis (façon fiche de poste)
+  responsibilities String? // Missions / le rôle à jouer
+  requirements     String? // Profil recherché
+  experience       String? // Expérience requise (ex: "2 à 3 ans")
+  education        String? // Formation / niveau d'études
+  skills           String? // Compétences (une par ligne)
+  benefits         String? // Avantages (un par ligne)
+  positions        Int? // Nombre de postes à pourvoir
+  createdAt    DateTime @default(now())
+
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+
+  recruiterId  String
+  recruiter    User     @relation("RecruiterJobs", fields: [recruiterId], references: [id])
+
+  applications Application[]
+}
+
+model Application {
+  id          String            @id @default(cuid())
+  coverLetter String?
+  status      ApplicationStatus @default(PENDING)
+  createdAt   DateTime          @default(now())
+
+  jobId       String
+  job         Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  candidateId String
+  candidate   User   @relation("CandidateApplications", fields: [candidateId], references: [id])
+
+  @@unique([jobId, candidateId])
+}

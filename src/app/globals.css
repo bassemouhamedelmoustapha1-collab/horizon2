@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dbe7fe;
+  --color-brand-200: #bfd3fe;
+  --color-brand-300: #93b4fd;
+  --color-brand-400: #6090fa;
+  --color-brand-500: #3b6df6;
+  --color-brand-600: #2451eb;
+  --color-brand-700: #1d3fd8;
+  --color-brand-800: #1e35af;
+  --color-brand-900: #1e328a;
+
+  --color-navy-700: #12224d;
+  --color-navy-800: #0d1a3d;
+  --color-navy-900: #0a142e;
+
+  --color-accent-orange: #f97316;
+  --color-accent-teal: #0d9488;
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a142e;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Système de défilement ---------- */
+
+/* Défilement fluide pour les ancres (#secteurs, #entreprises...) */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar personnalisée, fine et aux couleurs de la marque */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-300) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    var(--color-brand-300),
+    var(--color-brand-500)
+  );
+  border-radius: 9999px;
+  border: 2px solid var(--background);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    var(--color-brand-400),
+    var(--color-brand-600)
+  );
+  background-clip: padding-box;
+}
+
+/* Barre de progression de lecture, fixée en haut du viewport */
+.scroll-progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 60;
+  background: transparent;
+  pointer-events: none;
+}
+.scroll-progress-bar {
+  height: 100%;
+  transform-origin: left;
+  background: linear-gradient(
+    90deg,
+    var(--color-brand-500),
+    var(--color-accent-teal),
+    var(--color-brand-500)
+  );
+  background-size: 200% 100%;
+  will-change: transform;
+  transition: transform 0.08s linear;
+}
+
+/* Bouton "retour en haut" */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 45;
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* ---------- Utilitaires ---------- */
+.container-x {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px rgba(16, 34, 77, 0.04), 0 4px 20px rgba(16, 34, 77, 0.06);
+}
+
+.card-shadow-lg {
+  box-shadow: 0 10px 34px rgba(16, 34, 77, 0.1);
+}
+
+/* Police d'affichage du logo */
+.font-display {
+  font-family: var(--font-display), var(--font-sans);
+}
+
+/* Soulignement discret au survol des liens de navigation */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Apparitions au scroll (sobres) ---------- */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes revealFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes revealLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes revealRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.anim-fade-up { animation: revealUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-fade-in { animation: revealFade 0.6s ease both; }
+.anim-fade-down { animation: revealUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-slide-left { animation: revealLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-slide-right { animation: revealRight 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-scale-in { animation: revealUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-bounce-in { animation: revealUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-tilt-in { animation: revealUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Squelettes de chargement */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+.shimmer-bg {
+  background: linear-gradient(90deg, #f1f4f9 25%, #f8fafc 50%, #f1f4f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+}
+
+/* Défilement lent et discret de la bande partenaires */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 45s linear infinite; }
+
+/* Halo des CTA principaux : dégradé conique fixe que l'on fait tourner */
+@keyframes glowSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes glowBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+.glow-spin {
+  animation: glowSpin var(--glow-duration, 7s) linear infinite;
+}
+.glow-breathe {
+  animation: glowBreathe var(--glow-duration, 7s) ease-in-out infinite;
+}
+
+/* Délais d'échelonnement */
+.delay-75 { animation-delay: 75ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-225 { animation-delay: 225ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* Accessibilité : couper le mouvement si demandé */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
