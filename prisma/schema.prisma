@@ -1,7 +1,9 @@
 // Horizon — schéma de base de données
 // Alternative à Indeed pour l'Afrique
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // "native" pour le dev local + le moteur serverless de Vercel (Amazon Linux).
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
