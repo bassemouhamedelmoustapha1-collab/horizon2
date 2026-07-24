@@ -193,6 +193,69 @@ html {
   animation: shimmer 1.5s linear infinite;
 }
 
+/* ---------- Fond animé des pages Connexion / Inscription ---------- */
+
+/* Blobs d'aurore qui flottent et se déforment */
+@keyframes auroraDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(10%, -8%) scale(1.2); }
+  66%  { transform: translate(-8%, 10%) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  will-change: transform;
+  animation: auroraDrift 16s ease-in-out infinite;
+}
+
+/* Dégradé conique qui tourne lentement, très diffus */
+@keyframes authSpin {
+  to { transform: rotate(360deg); }
+}
+.auth-conic {
+  animation: authSpin 22s linear infinite;
+  will-change: transform;
+}
+
+/* Faisceau lumineux qui balaie en diagonale */
+@keyframes beamSweep {
+  0%   { transform: translateX(-130%) skewX(-14deg); opacity: 0; }
+  45%  { opacity: 0.55; }
+  100% { transform: translateX(230%) skewX(-14deg); opacity: 0; }
+}
+.auth-beam { animation: beamSweep 7s ease-in-out infinite; will-change: transform; }
+
+/* Particules qui montent doucement */
+@keyframes floatUp {
+  0%   { transform: translateY(20px); opacity: 0; }
+  15%, 85% { opacity: 0.7; }
+  100% { transform: translateY(-150px); opacity: 0; }
+}
+.auth-particle { animation: floatUp linear infinite; will-change: transform, opacity; }
+
+/* Grille en perspective qui défile */
+@keyframes gridPan {
+  from { background-position: 0 0; }
+  to   { background-position: 0 44px; }
+}
+.auth-grid { animation: gridPan 4.5s linear infinite; }
+
+/* Entrée en cascade des éléments du formulaire */
+@keyframes authIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.auth-in { animation: authIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Délais supplémentaires pour la cascade */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
 /* Défilement lent et discret de la bande partenaires */
 @keyframes marquee {
   from { transform: translateX(0); }

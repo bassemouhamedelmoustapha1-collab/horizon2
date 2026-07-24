@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { Field } from "@/components/ui/Field";
-import Logo from "@/components/Logo";
 import { UserIcon, BuildingIcon } from "@/components/Icon";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { RoleCard } from "@/components/ui/RoleCard";
 import SocialAuthButtons from "@/components/SocialAuthButtons";
+import AuthAside from "@/components/auth/AuthAside";
 
 function RegisterForm() {
   const { t } = useI18n();
@@ -46,26 +46,15 @@ function RegisterForm() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] grid lg:grid-cols-2">
-      <div className="hidden lg:flex flex-col justify-between bg-navy-900 text-white p-12">
-        <Link href="/" className="anim-fade-down inline-block">
-          <Logo dark className="text-3xl" />
-        </Link>
-        <div>
-          <h2 className="text-3xl font-extrabold leading-tight">
-            {t.home.heroTitle1} {t.home.heroTitle2}
-          </h2>
-          <p className="mt-4 text-slate-300 max-w-sm">{t.home.heroSubtitle}</p>
-        </div>
-        <p className="text-sm text-slate-400 max-w-xs">{t.common.tagline}</p>
-      </div>
+      <AuthAside />
 
       <div className="flex items-center justify-center p-6 sm:p-12">
         <form onSubmit={submit} className="w-full max-w-md">
-          <h1 className="text-2xl font-bold text-navy-900">
+          <h1 className="auth-in text-2xl font-bold text-navy-900">
             {t.auth.registerTitle}
           </h1>
 
-          <div className="mt-6">
+          <div className="auth-in delay-100 mt-6">
             <p className="text-sm font-medium text-slate-700 mb-2">{t.auth.iAm}</p>
             <div className="grid grid-cols-2 gap-3">
               <RoleCard
@@ -85,9 +74,11 @@ function RegisterForm() {
             </div>
           </div>
 
-          <SocialAuthButtons role={role} />
+          <div className="auth-in delay-200">
+            <SocialAuthButtons role={role} />
+          </div>
 
-          <div className="space-y-4">
+          <div className="auth-in delay-300 space-y-4">
             <Field
               label={t.auth.name}
               value={name}

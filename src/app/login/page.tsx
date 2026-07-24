@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { Field } from "@/components/ui/Field";
-import Logo from "@/components/Logo";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import SocialAuthButtons from "@/components/SocialAuthButtons";
+import AuthAside from "@/components/auth/AuthAside";
 
 const OAUTH_ERROR_KEYS: Record<
   string,
@@ -53,17 +53,8 @@ function LoginForm() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] grid lg:grid-cols-2">
-      <div className="hidden lg:flex flex-col justify-between bg-navy-900 text-white p-12">
-        <Link href="/" className="anim-fade-down inline-block">
-          <Logo dark className="text-3xl" />
-        </Link>
-        <div>
-          <h2 className="text-3xl font-extrabold leading-tight">
-            {t.home.heroTitle1} {t.home.heroTitle2}
-          </h2>
-          <p className="mt-4 text-slate-300 max-w-sm">{t.home.heroSubtitle}</p>
-        </div>
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-slate-400 space-y-1.5">
+      <AuthAside>
+        <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm p-4 text-sm text-slate-400 space-y-1.5">
           <p className="font-semibold text-slate-200 mb-1">
             {t.auth.demoAccounts}
           </p>
@@ -80,11 +71,11 @@ function LoginForm() {
             password123
           </p>
         </div>
-      </div>
+      </AuthAside>
 
       <div className="flex items-center justify-center p-6 sm:p-12">
         <form onSubmit={submit} className="w-full max-w-md">
-          <h1 className="text-2xl font-bold text-navy-900">
+          <h1 className="auth-in text-2xl font-bold text-navy-900">
             {t.auth.loginTitle}
           </h1>
 
@@ -94,25 +85,31 @@ function LoginForm() {
             </p>
           )}
 
-          <SocialAuthButtons />
+          <div className="auth-in delay-100">
+            <SocialAuthButtons />
+          </div>
 
           <div className="space-y-4">
-            <Field
-              label={t.auth.email}
-              type="email"
-              value={email}
-              onChange={setEmail}
-              placeholder="vous@exemple.com"
-              required
-            />
-            <Field
-              label={t.auth.password}
-              type="password"
-              value={password}
-              onChange={setPassword}
-              placeholder="••••••••"
-              required
-            />
+            <div className="auth-in delay-200">
+              <Field
+                label={t.auth.email}
+                type="email"
+                value={email}
+                onChange={setEmail}
+                placeholder="vous@exemple.com"
+                required
+              />
+            </div>
+            <div className="auth-in delay-300">
+              <Field
+                label={t.auth.password}
+                type="password"
+                value={password}
+                onChange={setPassword}
+                placeholder="••••••••"
+                required
+              />
+            </div>
           </div>
 
           {error && (
@@ -121,14 +118,16 @@ function LoginForm() {
             </p>
           )}
 
-          <InteractiveHoverButton
-            type="submit"
-            disabled={loading}
-            text={loading ? t.common.loading : t.common.signIn}
-            className="mt-6 w-full rounded-xl py-3 text-base"
-          />
+          <div className="auth-in delay-400">
+            <InteractiveHoverButton
+              type="submit"
+              disabled={loading}
+              text={loading ? t.common.loading : t.common.signIn}
+              className="mt-6 w-full rounded-xl py-3 text-base"
+            />
+          </div>
 
-          <p className="mt-5 text-sm text-slate-500 text-center">
+          <p className="auth-in delay-500 mt-5 text-sm text-slate-500 text-center">
             {t.auth.noAccount}{" "}
             <Link href="/register" className="text-brand-600 font-semibold">
               {t.common.signUp}
