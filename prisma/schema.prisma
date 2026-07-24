@@ -118,6 +118,7 @@ model Application {
   coverLetter String?
   status      ApplicationStatus @default(PENDING)
   createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now()) @updatedAt
 
   jobId       String
   job         Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)

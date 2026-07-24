@@ -51,6 +51,7 @@ export type Application = {
   coverLetter: string | null;
   status: ApplicationStatus;
   createdAt: string;
+  updatedAt: string;
   job?: Job;
   candidate?: {
     id: string;

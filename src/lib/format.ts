@@ -20,6 +20,21 @@ export function formatDate(date: string | Date, lang: Lang = "fr") {
   });
 }
 
+/** Temps relatif court : « à l'instant », « il y a 2 h », « il y a 3 j »… */
+export function formatRelative(date: string | Date, lang: Lang = "fr") {
+  const d = new Date(date).getTime();
+  const diff = Date.now() - d;
+  const min = Math.floor(diff / 60000);
+  const fr = lang === "fr";
+  if (min < 1) return fr ? "à l'instant" : "just now";
+  if (min < 60) return fr ? `il y a ${min} min` : `${min} min ago`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return fr ? `il y a ${h} h` : `${h}h ago`;
+  const j = Math.floor(h / 24);
+  if (j < 7) return fr ? `il y a ${j} j` : `${j}d ago`;
+  return formatDate(date, lang);
+}
+
 // Couleur d'accent déterministe par entreprise (pour les avatars des cartes)
 const ACCENTS = [
   "bg-brand-600",

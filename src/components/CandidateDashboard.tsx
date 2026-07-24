@@ -3,11 +3,39 @@
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
 import { formatDate } from "@/lib/format";
-import { InboxIcon, FileIcon } from "@/components/Icon";
+import {
+  InboxIcon,
+  FileIcon,
+  EyeIcon,
+  CheckIcon,
+  XIcon,
+} from "@/components/Icon";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import CompanyLogo from "@/components/CompanyLogo";
+import ActivityFeed, { type ActivityItem } from "@/components/ActivityFeed";
 import StatusBadge from "./StatusBadge";
 import type { Application } from "@/lib/types";
+import type { Dictionary } from "@/lib/i18n/dictionaries";
+
+function buildActivity(app: Application, t: Dictionary): ActivityItem {
+  const subtitle = `${app.job!.title} · ${app.job!.companyName}`;
+  const base = {
+    id: app.id,
+    time: app.updatedAt,
+    href: `/jobs/${app.job!.id}`,
+    subtitle,
+  };
+  switch (app.status) {
+    case "REVIEWED":
+      return { ...base, icon: <EyeIcon size={16} />, title: t.activity.reviewed, tone: "blue", unread: true };
+    case "ACCEPTED":
+      return { ...base, icon: <CheckIcon size={16} />, title: t.activity.accepted, tone: "green", unread: true };
+    case "REJECTED":
+      return { ...base, icon: <XIcon size={16} />, title: t.activity.rejected, tone: "red" };
+    default:
+      return { ...base, icon: <InboxIcon size={16} />, title: t.activity.sent, tone: "neutral" };
+  }
+}
 
 export default function CandidateDashboard({
   applications,
@@ -19,6 +47,12 @@ export default function CandidateDashboard({
   hasCv: boolean;
 }) {
   const { t, lang } = useI18n();
+
+  const activity: ActivityItem[] = [...applications]
+    .sort(
+      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    )
+    .map((app) => buildActivity(app, t));
 
   return (
     <div className="container-x py-10">
@@ -94,34 +128,46 @@ export default function CandidateDashboard({
           </Link>
         </div>
       ) : (
-        <div className="space-y-3">
-          {applications.map((app) => (
-            <Link
-              key={app.id}
-              href={`/jobs/${app.job!.id}`}
-              className="flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 card-shadow hover:border-brand-300 transition-colors"
-            >
-              <CompanyLogo
-                name={app.job!.companyName}
-                logoUrl={app.job!.recruiter?.logoUrl}
-                className="w-12 h-12 rounded-xl"
-              />
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-navy-900 truncate">
-                  {app.job!.title}
-                </h3>
-                <p className="text-sm text-slate-500 truncate">
-                  {app.job!.companyName} · {app.job!.location}
-                </p>
-              </div>
-              <div className="text-right shrink-0">
-                <StatusBadge status={app.status} />
-                <p className="mt-1 text-xs text-slate-400">
-                  {formatDate(app.createdAt, lang)}
-                </p>
-              </div>
-            </Link>
-          ))}
+        <div className="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
+          {/* Liste des candidatures */}
+          <div className="space-y-3">
+            {applications.map((app) => (
+              <Link
+                key={app.id}
+                href={`/jobs/${app.job!.id}`}
+                className="flex items-center gap-4 bg-white rounded-2xl border border-slate-100 p-4 card-shadow hover:border-brand-300 transition-colors"
+              >
+                <CompanyLogo
+                  name={app.job!.companyName}
+                  logoUrl={app.job!.recruiter?.logoUrl}
+                  className="w-12 h-12 rounded-xl"
+                />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-navy-900 truncate">
+                    {app.job!.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 truncate">
+                    {app.job!.companyName} · {app.job!.location}
+                  </p>
+                </div>
+                <div className="text-right shrink-0">
+                  <StatusBadge status={app.status} />
+                  <p className="mt-1 text-xs text-slate-400">
+                    {formatDate(app.createdAt, lang)}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Messagerie / fil de suivi */}
+          <div className="lg:sticky lg:top-24">
+            <ActivityFeed
+              title={t.activity.candidateTitle}
+              items={activity}
+              emptyLabel={t.activity.empty}
+            />
+          </div>
         </div>
       )}
     </div>
