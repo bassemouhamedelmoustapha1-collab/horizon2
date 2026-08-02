@@ -1,12 +1,29 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useReducedMotion,
 } from "framer-motion";
+
+/**
+ * Vrai sur les petits écrans : on y coupe la parallaxe pilotée par le
+ * scroll (mises à jour de style par frame sur des couches floutées =
+ * la principale source de lenteur du hero sur mobile).
+ */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isMobile;
+}
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import { SearchIcon, MapPinIcon } from "@/components/Icon";
@@ -71,15 +88,19 @@ export function HeroOdyssey() {
   // (pas une boucle : le mouvement suit exactement le doigt/la molette).
   const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  // Parallaxe coupée sur mobile et en mouvement réduit : zéro mise à
+  // jour de style au scroll, le hero devient totalement statique.
+  const still = reduceMotion || isMobile;
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const beamY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 90]);
-  const haloY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 140]);
-  const sphereY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 60]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 0 : 50]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.2]);
+  const beamY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : 90]);
+  const haloY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : 140]);
+  const sphereY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : 60]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, still ? 0 : 50]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, still ? 1 : 0.2]);
 
   function search(e: React.FormEvent) {
     e.preventDefault();
@@ -161,7 +182,7 @@ export function HeroOdyssey() {
           <motion.form
             variants={itemVariants}
             onSubmit={search}
-            className="mt-8 w-full max-w-xl bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-2 flex flex-col sm:flex-row gap-2 focus-within:border-white/25 transition-colors"
+            className="mt-8 w-full max-w-xl bg-white/10 md:bg-white/5 border border-white/10 md:backdrop-blur-md rounded-2xl p-2 flex flex-col sm:flex-row gap-2 focus-within:border-white/25 transition-colors"
           >
             <div className="flex-1 flex items-center gap-2.5 px-3">
               <SearchIcon className="text-white/40 shrink-0" />
@@ -210,17 +231,22 @@ export function HeroOdyssey() {
         </motion.div>
       </motion.div>
 
-      {/* Décor de fond (CSS, sans shader) — parallaxe pilotée par le scroll */}
+      {/* Décor de fond (CSS, sans shader) — parallaxe pilotée par le scroll.
+          Les grandes couches FLOUTÉES sont réservées au desktop : sur mobile
+          leur repaint coûte très cher, on garde un dégradé léger + la sphère
+          (radial-gradient net, bon marché). */}
       <div className="absolute inset-0 z-0">
-        {/* Faisceau lumineux central */}
+        {/* Dégradé statique léger, seul décor haut sur mobile */}
+        <div className="md:hidden absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(59,109,246,0.18),transparent_65%)]" />
+        {/* Faisceau lumineux central (desktop) */}
         <motion.div
           style={{ y: beamY }}
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[520px] h-full bg-gradient-to-b from-brand-500/25 via-brand-600/5 to-transparent blur-2xl"
+          className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-[520px] h-full bg-gradient-to-b from-brand-500/25 via-brand-600/5 to-transparent blur-2xl"
         />
-        {/* Halo bleu diffus */}
+        {/* Halo bleu diffus (desktop) */}
         <motion.div
           style={{ y: haloY }}
-          className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[760px] rounded-full bg-gradient-to-b from-brand-500/20 to-brand-700/5 blur-3xl"
+          className="hidden md:block absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[760px] rounded-full bg-gradient-to-b from-brand-500/20 to-brand-700/5 blur-3xl"
         />
         {/* Voile sombre en bas */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-navy-900/60" />

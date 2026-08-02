@@ -232,7 +232,7 @@ export default function JobDetailView({
 
       {/* Barre d'action fixée en bas — mobile uniquement (pattern Indeed) */}
       <div
-        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 px-4 py-3"
         style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
       >
         <div className="flex items-center gap-3">

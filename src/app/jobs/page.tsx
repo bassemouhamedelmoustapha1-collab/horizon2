@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { getCategoriesCached } from "@/lib/categories";
 import JobsExplorer from "@/components/JobsExplorer";
 import type { Prisma } from "@prisma/client";
 import type { Job, Category } from "@/lib/types";
@@ -54,10 +55,7 @@ export default async function JobsPage({
       },
       orderBy: { createdAt: "desc" },
     }),
-    prisma.category.findMany({
-      include: { _count: { select: { jobs: true } } },
-      orderBy: { name: "asc" },
-    }),
+    getCategoriesCached(),
   ]);
 
   const jobs = JSON.parse(JSON.stringify(jobsRaw)) as Job[];

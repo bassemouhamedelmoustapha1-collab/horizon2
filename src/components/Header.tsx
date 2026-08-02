@@ -68,8 +68,8 @@ export default function Header({ categories }: { categories: Category[] }) {
       className={cn(
         "sticky top-0 z-40 transition-all duration-300",
         scrolled
-          ? "bg-white/95 backdrop-blur-md border-b border-slate-200/70 shadow-[0_4px_20px_rgba(16,34,77,0.06)]"
-          : "bg-white/70 backdrop-blur border-b border-transparent"
+          ? "bg-white md:bg-white/95 md:backdrop-blur-md border-b border-slate-200/70 shadow-[0_4px_20px_rgba(16,34,77,0.06)]"
+          : "bg-white md:bg-white/70 md:backdrop-blur border-b border-transparent"
       )}
     >
       <div className="container-x flex items-center justify-between h-[68px]">

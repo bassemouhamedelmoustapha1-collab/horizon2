@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getCategoriesCached } from "@/lib/categories";
 import { HeroOdyssey } from "@/components/ui/hero-odyssey";
 import Ticker from "@/components/home/Ticker";
 import CategoryGrid from "@/components/home/CategoryGrid";
@@ -8,10 +9,7 @@ import type { Job, Category } from "@/lib/types";
 
 export default async function HomePage() {
   const [categoriesRaw, jobsRaw] = await Promise.all([
-    prisma.category.findMany({
-      include: { _count: { select: { jobs: true } } },
-      orderBy: { name: "asc" },
-    }),
+    getCategoriesCached(),
     prisma.job.findMany({
       include: {
         category: true,

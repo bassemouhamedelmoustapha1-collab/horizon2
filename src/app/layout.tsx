@@ -6,7 +6,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n/context";
 import { AuthProvider, type PublicUser } from "@/lib/auth-context";
 import { getCurrentUser } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getCategoriesCached } from "@/lib/categories";
 import type { Lang } from "@/lib/i18n/dictionaries";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -49,10 +49,7 @@ export default async function RootLayout({
       }
     : null;
 
-  const categoriesRaw = await prisma.category.findMany({
-    include: { _count: { select: { jobs: true } } },
-    orderBy: { name: "asc" },
-  });
+  const categoriesRaw = await getCategoriesCached();
   const categories = JSON.parse(JSON.stringify(categoriesRaw));
 
   return (

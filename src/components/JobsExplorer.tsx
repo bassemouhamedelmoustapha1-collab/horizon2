@@ -125,7 +125,7 @@ export default function JobsExplorer({
       <div
         ref={searchBarRef}
         className={cn(
-          "lg:hidden sticky top-[68px] z-30 bg-white/95 backdrop-blur-md border-b border-slate-100 will-change-transform transition-[transform,box-shadow] duration-300 ease-out",
+          "lg:hidden sticky top-[68px] z-30 bg-white border-b border-slate-100 will-change-transform transition-[transform,box-shadow] duration-300 ease-out",
           !searchHidden && "shadow-[0_4px_16px_rgba(16,34,77,0.05)]"
         )}
         style={{

@@ -82,7 +82,7 @@ export default function MobileTabBar() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       aria-label="Navigation mobile"
     >
