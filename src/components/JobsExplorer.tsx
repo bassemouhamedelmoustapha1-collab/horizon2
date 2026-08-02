@@ -52,6 +52,25 @@ export default function JobsExplorer({
   const [location, setLocation] = useState(initialFilters.location);
   const [sheetOpen, setSheetOpen] = useState(false);
 
+  // Barre de recherche mobile : cachée quand on descend, réaffichée dès
+  // qu'on remonte (comportement Indeed) — jamais cachée pendant la saisie.
+  const [searchHidden, setSearchHidden] = useState(false);
+  const searchBarRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      if (Math.abs(delta) < 8) return;
+      const typing =
+        searchBarRef.current?.contains(document.activeElement) ?? false;
+      setSearchHidden(delta > 0 && y > 140 && !typing);
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   // Navigation debouncée : l'URL est la source de vérité, le serveur re-rend.
   const first = useRef(true);
   useEffect(() => {
@@ -102,7 +121,18 @@ export default function JobsExplorer({
   return (
     <div className="pb-6">
       {/* ============ Recherche sticky (mobile uniquement) ============ */}
-      <div className="lg:hidden sticky top-[68px] z-30 bg-white border-b border-slate-100 shadow-[0_4px_16px_rgba(16,34,77,0.05)]">
+      <div
+        ref={searchBarRef}
+        className={cn(
+          "lg:hidden sticky top-[68px] z-30 bg-white/95 backdrop-blur-md border-b border-slate-100 will-change-transform transition-[transform,box-shadow] duration-300 ease-out",
+          !searchHidden && "shadow-[0_4px_16px_rgba(16,34,77,0.05)]"
+        )}
+        style={{
+          transform: searchHidden
+            ? "translateY(calc(-100% - 68px))"
+            : "translateY(0)",
+        }}
+      >
         <div className="container-x py-3 space-y-2.5">
           <div className="rounded-2xl border border-slate-200 divide-y divide-slate-100 bg-white">
             <div className="flex items-center gap-2.5 px-3.5">

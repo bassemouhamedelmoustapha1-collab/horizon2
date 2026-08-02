@@ -18,6 +18,10 @@ import type { ReactNode } from "react";
  * navigation des applis Indeed / HelloWork. Masquée sur les fiches
  * d'offre et le formulaire de candidature, où le bas d'écran est
  * occupé par le bouton « Candidater ».
+ *
+ * Animations : l'icône de l'onglet actif « pop » avec un rebond, une
+ * pastille s'allume derrière elle et un indicateur s'étire au-dessus ;
+ * chaque tap a un retour d'échelle immédiat.
  */
 export default function MobileTabBar() {
   const { t } = useI18n();
@@ -87,13 +91,48 @@ export default function MobileTabBar() {
           <Link
             key={tab.href}
             href={tab.href}
+            aria-current={tab.active ? "page" : undefined}
             className={cn(
-              "flex flex-col items-center gap-0.5 py-2 pt-2.5 text-[11px] font-medium transition-colors",
-              tab.active ? "text-brand-600" : "text-slate-500 active:text-navy-900"
+              "relative flex flex-col items-center gap-0.5 pb-2 pt-2.5 text-[11px] font-medium select-none",
+              "transition-transform duration-150 active:scale-90",
+              tab.active ? "text-brand-600" : "text-slate-500"
             )}
           >
-            {tab.icon}
-            <span className="truncate max-w-[5.5rem]">{tab.label}</span>
+            {/* Indicateur au-dessus de l'onglet actif */}
+            {tab.active && (
+              <span
+                className="tab-indicator absolute top-0 h-[3px] w-9 rounded-b-full bg-brand-600"
+                aria-hidden="true"
+              />
+            )}
+            {/* Icône + pastille : re-jouées à chaque changement d'onglet */}
+            <span
+              key={tab.active ? pathname : undefined}
+              className="relative grid place-items-center h-7 w-13 min-w-[3.25rem]"
+            >
+              {tab.active && (
+                <span
+                  className="tab-pill absolute inset-0 rounded-full bg-brand-50"
+                  aria-hidden="true"
+                />
+              )}
+              <span
+                className={cn(
+                  "relative transition-colors duration-200",
+                  tab.active && "tab-pop"
+                )}
+              >
+                {tab.icon}
+              </span>
+            </span>
+            <span
+              className={cn(
+                "truncate max-w-[5.5rem] transition-all duration-200",
+                tab.active && "font-semibold"
+              )}
+            >
+              {tab.label}
+            </span>
           </Link>
         ))}
       </div>
