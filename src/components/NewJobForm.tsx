@@ -15,6 +15,20 @@ const TYPES: JobType[] = [
   "REMOTE",
 ];
 
+// Devises acceptées (alignées sur jobSchema côté serveur).
+const CURRENCIES = [
+  "XOF",
+  "XAF",
+  "NGN",
+  "GHS",
+  "KES",
+  "MAD",
+  "MRU",
+  "RWF",
+  "USD",
+  "EUR",
+];
+
 const inputCls =
   "mt-1 w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-brand-500";
 
@@ -37,6 +51,7 @@ export default function NewJobForm({
   const [type, setType] = useState<JobType>("FULL_TIME");
   const [salaryMin, setSalaryMin] = useState("");
   const [salaryMax, setSalaryMax] = useState("");
+  const [currency, setCurrency] = useState("XOF");
   // Champs enrichis
   const [responsibilities, setResponsibilities] = useState("");
   const [requirements, setRequirements] = useState("");
@@ -64,6 +79,7 @@ export default function NewJobForm({
         type,
         salaryMin: salaryMin ? parseInt(salaryMin, 10) : undefined,
         salaryMax: salaryMax ? parseInt(salaryMax, 10) : undefined,
+        currency,
         responsibilities: responsibilities || undefined,
         requirements: requirements || undefined,
         experience: experience || undefined,
@@ -181,10 +197,10 @@ export default function NewJobForm({
             </label>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-3 gap-4">
             <label className="block">
               <span className="text-sm font-medium text-slate-700">
-                {t.recruiter.salaryMin} (XOF)
+                {t.recruiter.salaryMin}
               </span>
               <input
                 type="number"
@@ -197,7 +213,7 @@ export default function NewJobForm({
             </label>
             <label className="block">
               <span className="text-sm font-medium text-slate-700">
-                {t.recruiter.salaryMax} (XOF)
+                {t.recruiter.salaryMax}
               </span>
               <input
                 type="number"
@@ -207,6 +223,22 @@ export default function NewJobForm({
                 placeholder="900000"
                 className={inputCls}
               />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700">
+                {t.recruiter.currency}
+              </span>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className={inputCls}
+              >
+                {CURRENCIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
 

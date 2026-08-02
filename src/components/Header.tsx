@@ -135,7 +135,10 @@ export default function Header({ categories }: { categories: Category[] }) {
                           {cat.name}
                         </span>
                         <span className="block text-xs text-slate-500">
-                          {cat._count?.jobs ?? 0} {t.home.openPositions}
+                          {cat._count?.jobs ?? 0}{" "}
+                          {(cat._count?.jobs ?? 0) === 1
+                            ? t.home.openPositionsOne
+                            : t.home.openPositions}
                         </span>
                       </span>
                     </Link>

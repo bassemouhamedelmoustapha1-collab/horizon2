@@ -2,22 +2,25 @@
 
 import { useI18n } from "@/lib/i18n/context";
 
-const COMPANIES = [
-  "Sonatel",
-  "Orange",
-  "Wave",
-  "Jumia",
-  "Ecobank",
-  "MTN Group",
-  "Africell",
-  "Baobab",
-  "Senelec",
+// Secteurs couverts par la plateforme (pas de marques réelles :
+// on n'affiche des noms d'entreprises que lorsqu'elles ont publié une offre).
+const SECTORS = [
+  "Informatique & Tech",
+  "Finance & Comptabilité",
+  "Santé",
+  "Marketing & Communication",
+  "Logistique & Transport",
+  "Éducation & Formation",
+  "Agriculture",
+  "Ressources Humaines",
+  "Service Client",
+  "Développement Business",
 ];
 
-/** Bande « ils recrutent sur Horizon » — noms d'entreprises, défilement lent. */
+/** Bande des secteurs représentés — défilement lent. */
 export default function Ticker() {
   const { t } = useI18n();
-  const track = [...COMPANIES, ...COMPANIES];
+  const track = [...SECTORS, ...SECTORS];
 
   return (
     <section

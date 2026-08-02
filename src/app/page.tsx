@@ -7,8 +7,7 @@ import CtaSplit from "@/components/home/CtaSplit";
 import type { Job, Category } from "@/lib/types";
 
 export default async function HomePage() {
-  const [totalJobs, categoriesRaw, jobsRaw] = await Promise.all([
-    prisma.job.count(),
+  const [categoriesRaw, jobsRaw] = await Promise.all([
     prisma.category.findMany({
       include: { _count: { select: { jobs: true } } },
       orderBy: { name: "asc" },
@@ -28,7 +27,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroOdyssey totalJobs={totalJobs} />
+      <HeroOdyssey />
       <Ticker />
       <CategoryGrid categories={categories} />
       <FeaturedJobs jobs={jobs} />

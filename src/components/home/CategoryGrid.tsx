@@ -47,7 +47,10 @@ export default function CategoryGrid({
                 {cat.name}
               </h3>
               <p className="mt-1 text-xs text-slate-500">
-                {cat._count?.jobs ?? 0} {t.home.openPositions}
+                {cat._count?.jobs ?? 0}{" "}
+                {(cat._count?.jobs ?? 0) === 1
+                  ? t.home.openPositionsOne
+                  : t.home.openPositions}
               </p>
             </Link>
           </Reveal>

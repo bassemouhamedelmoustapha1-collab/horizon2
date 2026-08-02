@@ -16,167 +16,234 @@ const categories = [
   { name: "Logistique & Transport", slug: "logistics" },
 ];
 
-const cities = [
-  "Dakar, Sénégal",
-  "Abidjan, Côte d'Ivoire",
-  "Lagos, Nigeria",
-  "Nairobi, Kenya",
-  "Accra, Ghana",
-  "Casablanca, Maroc",
-  "Nouakchott, Mauritanie",
-  "Bamako, Mali",
-  "Douala, Cameroun",
-  "Kigali, Rwanda",
+/**
+ * Entreprises de démonstration FICTIVES (aucune marque réelle : pas de
+ * risque juridique), mais plausibles : secteur, ville et devise cohérents.
+ * Le logo est l'initiale colorée générée par CompanyLogo.
+ */
+const companies: {
+  name: string;
+  about: string;
+  city: string;
+  currency: string;
+}[] = [
+  {
+    name: "Téranga Digital",
+    about: "Agence de développement web et mobile basée à Dakar.",
+    city: "Dakar, Sénégal",
+    currency: "XOF",
+  },
+  {
+    name: "Lagoon Pay",
+    about: "Fintech ivoirienne spécialisée dans le paiement mobile.",
+    city: "Abidjan, Côte d'Ivoire",
+    currency: "XOF",
+  },
+  {
+    name: "Ikeja Labs",
+    about: "Startup studio nigérian qui construit des produits mobiles.",
+    city: "Lagos, Nigeria",
+    currency: "NGN",
+  },
+  {
+    name: "Savanna Contact Center",
+    about: "Centre de relation client multilingue installé à Nairobi.",
+    city: "Nairobi, Kenya",
+    currency: "KES",
+  },
+  {
+    name: "Accra Retail Group",
+    about: "Groupe de distribution présent dans tout le Ghana.",
+    city: "Accra, Ghana",
+    currency: "GHS",
+  },
+  {
+    name: "Atlas Santé",
+    about: "Réseau de cliniques privées au Maroc.",
+    city: "Casablanca, Maroc",
+    currency: "MAD",
+  },
+  {
+    name: "Chinguetti Conseil",
+    about: "Cabinet mauritanien de conseil en RH et comptabilité.",
+    city: "Nouakchott, Mauritanie",
+    currency: "MRU",
+  },
+  {
+    name: "Sahel Logistics",
+    about: "Transport et acheminement de marchandises au Sahel.",
+    city: "Bamako, Mali",
+    currency: "XOF",
+  },
+  {
+    name: "Douala Port Services",
+    about: "Manutention et logistique portuaire à Douala.",
+    city: "Douala, Cameroun",
+    currency: "XAF",
+  },
+  {
+    name: "GreenFields Rwanda",
+    about: "Agritech qui accompagne les coopératives rwandaises.",
+    city: "Kigali, Rwanda",
+    currency: "RWF",
+  },
+  {
+    name: "Baobab Académie",
+    about: "Organisme de formation aux métiers du numérique.",
+    city: "Dakar, Sénégal",
+    currency: "XOF",
+  },
 ];
 
-const companies = [
-  "Sonatel",
-  "Orange Afrique",
-  "Wave",
-  "Jumia",
-  "Ecobank",
-  "MTN Group",
-  "Bolloré Africa",
-  "Africell",
-  "Baobab Group",
-  "Senelec",
-];
-
-// Logos réels téléchargés dans public/companies/ (voir README).
-const companyLogos = [
-  "/companies/sonatel.png",
-  "/companies/orange.png",
-  "/companies/wave.png",
-  "/companies/jumia.png",
-  "/companies/ecobank.png",
-  "/companies/mtn.png",
-  "/companies/bollore.png",
-  "/companies/africell.png",
-  "/companies/baobab.png",
-  "/companies/senelec.png",
-];
-
-const jobTemplates: {
+/**
+ * Offres : chacune est rattachée à une entreprise dont le secteur colle au
+ * poste, dans la ville de l'entreprise, avec un salaire exprimé dans la
+ * devise locale et un ordre de grandeur réaliste (mensuel).
+ * `daysAgo` étale les dates de publication sur ~6 semaines.
+ */
+const jobs: {
   title: string;
+  company: string;
   type: JobType;
   categorySlug: string;
   salaryMin: number;
   salaryMax: number;
+  daysAgo: number;
   description: string;
 }[] = [
   {
     title: "Développeur Fullstack",
+    company: "Téranga Digital",
     type: "FULL_TIME",
     categorySlug: "tech",
-    salaryMin: 800000,
-    salaryMax: 1500000,
+    salaryMin: 800_000,
+    salaryMax: 1_500_000,
+    daysAgo: 1,
     description:
-      "Nous recherchons un développeur fullstack maîtrisant React et Node.js pour rejoindre notre équipe produit et bâtir des solutions à fort impact pour le marché africain.",
-  },
-  {
-    title: "Analyste Financier",
-    type: "FULL_TIME",
-    categorySlug: "finance",
-    salaryMin: 600000,
-    salaryMax: 1100000,
-    description:
-      "En tant qu'analyste financier, vous participerez à l'élaboration des budgets, au reporting et à l'analyse de la performance de nos activités régionales.",
-  },
-  {
-    title: "Chargé de Support Client",
-    type: "PART_TIME",
-    categorySlug: "customer-service",
-    salaryMin: 250000,
-    salaryMax: 450000,
-    description:
-      "Vous serez le premier point de contact de nos clients : assistance téléphonique, résolution des incidents et suivi de la satisfaction.",
-  },
-  {
-    title: "Responsable Marketing Digital",
-    type: "FULL_TIME",
-    categorySlug: "marketing",
-    salaryMin: 700000,
-    salaryMax: 1300000,
-    description:
-      "Pilotez notre stratégie d'acquisition digitale : réseaux sociaux, SEO/SEA, campagnes d'emailing et analyse des performances.",
-  },
-  {
-    title: "Chargé de Recrutement (RH)",
-    type: "CONTRACT",
-    categorySlug: "human-resources",
-    salaryMin: 500000,
-    salaryMax: 900000,
-    description:
-      "Gérez le cycle complet de recrutement : sourcing, entretiens, onboarding et développement de la marque employeur.",
-  },
-  {
-    title: "Ingénieur Agronome",
-    type: "FULL_TIME",
-    categorySlug: "agriculture",
-    salaryMin: 450000,
-    salaryMax: 850000,
-    description:
-      "Accompagnez les coopératives agricoles dans l'optimisation de leurs rendements et l'adoption de pratiques durables.",
-  },
-  {
-    title: "Infirmier Diplômé d'État",
-    type: "FULL_TIME",
-    categorySlug: "healthcare",
-    salaryMin: 350000,
-    salaryMax: 700000,
-    description:
-      "Rejoignez notre centre de santé pour assurer les soins, le suivi des patients et la coordination avec l'équipe médicale.",
+      "Nous recherchons un développeur fullstack maîtrisant React et Node.js pour rejoindre notre équipe produit et bâtir des applications web pour nos clients de la sous-région.",
   },
   {
     title: "Développeur Mobile (Stagiaire)",
+    company: "Ikeja Labs",
     type: "INTERNSHIP",
     categorySlug: "tech",
-    salaryMin: 100000,
-    salaryMax: 200000,
+    salaryMin: 80_000,
+    salaryMax: 150_000,
+    daysAgo: 3,
     description:
-      "Stage de 6 mois pour participer au développement de nos applications mobiles Flutter/React Native, encadré par des seniors.",
+      "Stage de 6 mois pour participer au développement de nos applications mobiles Flutter/React Native, encadré par des développeurs seniors du studio.",
   },
   {
-    title: "Chef de Projet Logistique",
+    title: "Analyste Financier",
+    company: "Lagoon Pay",
     type: "FULL_TIME",
-    categorySlug: "logistics",
-    salaryMin: 700000,
-    salaryMax: 1200000,
+    categorySlug: "finance",
+    salaryMin: 600_000,
+    salaryMax: 1_100_000,
+    daysAgo: 5,
     description:
-      "Optimisez notre chaîne d'approvisionnement, gérez les flux de marchandises et coordonnez nos partenaires transport.",
-  },
-  {
-    title: "Formateur en Compétences Numériques",
-    type: "REMOTE",
-    categorySlug: "education",
-    salaryMin: 400000,
-    salaryMax: 800000,
-    description:
-      "Animez des sessions de formation en ligne sur les outils numériques auprès de jeunes et de professionnels à travers l'Afrique.",
-  },
-  {
-    title: "Business Developer Junior",
-    type: "FULL_TIME",
-    categorySlug: "business-development",
-    salaryMin: 400000,
-    salaryMax: 750000,
-    description:
-      "Développez notre portefeuille clients, identifiez de nouvelles opportunités et négociez des partenariats stratégiques.",
+      "Au sein de notre fintech, vous participerez à l'élaboration des budgets, au reporting réglementaire et à l'analyse de la performance de nos corridors de paiement.",
   },
   {
     title: "Comptable Confirmé",
+    company: "Chinguetti Conseil",
     type: "FULL_TIME",
     categorySlug: "finance",
-    salaryMin: 500000,
-    salaryMax: 950000,
+    salaryMin: 18_000,
+    salaryMax: 30_000,
+    daysAgo: 8,
     description:
-      "Assurez la tenue de la comptabilité générale, les déclarations fiscales et l'établissement des états financiers.",
+      "Pour le compte de nos clients PME, vous assurez la tenue de la comptabilité générale, les déclarations fiscales et l'établissement des états financiers.",
+  },
+  {
+    title: "Chargé de Support Client",
+    company: "Savanna Contact Center",
+    type: "PART_TIME",
+    categorySlug: "customer-service",
+    salaryMin: 45_000,
+    salaryMax: 80_000,
+    daysAgo: 11,
+    description:
+      "Vous serez le premier point de contact des clients de nos donneurs d'ordre : assistance téléphonique en français et en anglais, résolution des incidents et suivi de la satisfaction.",
+  },
+  {
+    title: "Responsable Marketing Digital",
+    company: "Accra Retail Group",
+    type: "FULL_TIME",
+    categorySlug: "marketing",
+    salaryMin: 6_000,
+    salaryMax: 11_000,
+    daysAgo: 14,
+    description:
+      "Pilotez la stratégie d'acquisition digitale de nos enseignes : réseaux sociaux, SEO/SEA, campagnes d'emailing et analyse des performances en magasin et en ligne.",
+  },
+  {
+    title: "Chargé de Recrutement (RH)",
+    company: "Chinguetti Conseil",
+    type: "CONTRACT",
+    categorySlug: "human-resources",
+    salaryMin: 15_000,
+    salaryMax: 25_000,
+    daysAgo: 18,
+    description:
+      "Gérez le cycle complet de recrutement pour nos clients : sourcing, entretiens, onboarding et développement de la marque employeur.",
+  },
+  {
+    title: "Ingénieur Agronome",
+    company: "GreenFields Rwanda",
+    type: "FULL_TIME",
+    categorySlug: "agriculture",
+    salaryMin: 900_000,
+    salaryMax: 1_600_000,
+    daysAgo: 22,
+    description:
+      "Accompagnez les coopératives agricoles partenaires dans l'optimisation de leurs rendements et l'adoption de pratiques durables, avec des déplacements réguliers sur le terrain.",
+  },
+  {
+    title: "Infirmier Diplômé d'État",
+    company: "Atlas Santé",
+    type: "FULL_TIME",
+    categorySlug: "healthcare",
+    salaryMin: 7_000,
+    salaryMax: 11_000,
+    daysAgo: 26,
+    description:
+      "Rejoignez l'une de nos cliniques casablancaises pour assurer les soins, le suivi des patients et la coordination avec l'équipe médicale.",
+  },
+  {
+    title: "Chef de Projet Logistique",
+    company: "Douala Port Services",
+    type: "FULL_TIME",
+    categorySlug: "logistics",
+    salaryMin: 700_000,
+    salaryMax: 1_200_000,
+    daysAgo: 31,
+    description:
+      "Optimisez nos opérations de manutention, gérez les flux de marchandises sur le terminal et coordonnez transporteurs et transitaires.",
+  },
+  {
+    title: "Formateur en Compétences Numériques",
+    company: "Baobab Académie",
+    type: "REMOTE",
+    categorySlug: "education",
+    salaryMin: 400_000,
+    salaryMax: 800_000,
+    daysAgo: 35,
+    description:
+      "Animez des sessions de formation en ligne sur les outils numériques auprès de jeunes diplômés et de professionnels francophones, où que vous soyez.",
+  },
+  {
+    title: "Business Developer Junior",
+    company: "Sahel Logistics",
+    type: "FULL_TIME",
+    categorySlug: "business-development",
+    salaryMin: 400_000,
+    salaryMax: 750_000,
+    daysAgo: 40,
+    description:
+      "Développez notre portefeuille de chargeurs, identifiez de nouvelles lignes de transport et négociez des partenariats dans la sous-région.",
   },
 ];
-
-function pick<T>(arr: T[], i: number): T {
-  return arr[i % arr.length];
-}
 
 // Contenu enrichi générique mais crédible, décliné par secteur.
 const EXPERIENCE_BY_TYPE: Record<JobType, string> = {
@@ -240,6 +307,14 @@ function enrichJob(tpl: { title: string; type: JobType; categorySlug: string }) 
   };
 }
 
+/** Date de publication : il y a `daysAgo` jours, à une heure ouvrée variée. */
+function postedAt(daysAgo: number): Date {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  d.setHours(8 + (daysAgo % 9), (daysAgo * 17) % 60, 0, 0);
+  return d;
+}
+
 async function main() {
   console.log("🌱 Nettoyage...");
   await prisma.application.deleteMany();
@@ -257,20 +332,25 @@ async function main() {
   const password = await bcrypt.hash("password123", 10);
 
   console.log("🌱 Recruteurs...");
-  const recruiters = [];
+  const recruitersByCompany: Record<string, { id: string; city: string; currency: string }> = {};
   for (let i = 0; i < companies.length; i++) {
+    const c = companies[i];
     const recruiter = await prisma.user.create({
       data: {
         email: `recruteur${i + 1}@horizon.africa`,
         passwordHash: password,
-        name: `Recruteur ${companies[i]}`,
+        name: `Recrutement ${c.name}`,
         role: "RECRUITER",
-        companyName: companies[i],
-        logoUrl: companyLogos[i],
-        location: pick(cities, i),
+        companyName: c.name,
+        bio: c.about,
+        location: c.city,
       },
     });
-    recruiters.push(recruiter);
+    recruitersByCompany[c.name] = {
+      id: recruiter.id,
+      city: c.city,
+      currency: c.currency,
+    };
   }
 
   console.log("🌱 Candidat de démonstration...");
@@ -288,21 +368,22 @@ async function main() {
 
   console.log("🌱 Offres d'emploi...");
   let count = 0;
-  for (let i = 0; i < jobTemplates.length; i++) {
-    const tpl = jobTemplates[i];
-    const recruiter = pick(recruiters, i);
+  for (const tpl of jobs) {
+    const recruiter = recruitersByCompany[tpl.company];
+    if (!recruiter) throw new Error(`Entreprise inconnue : ${tpl.company}`);
     await prisma.job.create({
       data: {
         title: tpl.title,
         description: tpl.description,
-        companyName: recruiter.companyName!,
-        location: pick(cities, i),
+        companyName: tpl.company,
+        location: recruiter.city,
         type: tpl.type,
         salaryMin: tpl.salaryMin,
         salaryMax: tpl.salaryMax,
-        currency: "XOF",
+        currency: recruiter.currency,
         categoryId: createdCategories[tpl.categorySlug],
         recruiterId: recruiter.id,
+        createdAt: postedAt(tpl.daysAgo),
         ...enrichJob(tpl),
       },
     });

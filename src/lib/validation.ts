@@ -21,6 +21,9 @@ export const jobSchema = z.object({
   type: z.enum(["FULL_TIME", "PART_TIME", "CONTRACT", "INTERNSHIP", "REMOTE"]),
   salaryMin: z.number().int().nonnegative().optional(),
   salaryMax: z.number().int().nonnegative().optional(),
+  currency: z
+    .enum(["XOF", "XAF", "NGN", "GHS", "KES", "MAD", "MRU", "RWF", "USD", "EUR"])
+    .optional(),
   responsibilities: z.string().max(5000).optional(),
   requirements: z.string().max(5000).optional(),
   experience: z.string().max(500).optional(),

@@ -61,7 +61,7 @@ const itemVariants = {
   },
 };
 
-export function HeroOdyssey({ totalJobs }: { totalJobs: number }) {
+export function HeroOdyssey() {
   const { t } = useI18n();
   const router = useRouter();
   const [q, setQ] = useState("");
@@ -104,23 +104,23 @@ export function HeroOdyssey({ totalJobs }: { totalJobs: number }) {
         {/* Étiquettes flottantes (masquées sur mobile) */}
         <div className="hidden lg:block">
           <FeatureItem
-            name={`${totalJobs}`}
-            value={t.home.statsJobs}
+            name="10"
+            value={t.home.statCountries}
             position="left-0 top-10"
           />
           <FeatureItem
             name="10"
-            value={t.home.statCountries}
+            value={t.home.statSectors}
             position="left-4 bottom-16"
-          />
-          <FeatureItem
-            name="10"
-            value={t.home.statCompanies}
-            position="right-0 top-10"
           />
           <FeatureItem
             name="FR · EN"
             value={t.home.bilingual}
+            position="right-0 top-10"
+          />
+          <FeatureItem
+            name="100%"
+            value={t.home.statFree}
             position="right-4 bottom-16"
           />
         </div>

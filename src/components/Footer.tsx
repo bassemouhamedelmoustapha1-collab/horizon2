@@ -47,13 +47,13 @@ export default function Footer() {
         <div className="container-x py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-400">
           <span>© {year} Horizon. {t.footer.rights}.</span>
           <nav className="flex items-center gap-6">
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/privacy" className="hover:text-white transition-colors">
               {t.footer.privacy}
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-white transition-colors">
               {t.footer.terms}
             </Link>
-            <Link href="#" className="hover:text-white transition-colors">
+            <Link href="/contact" className="hover:text-white transition-colors">
               {t.footer.contact}
             </Link>
           </nav>

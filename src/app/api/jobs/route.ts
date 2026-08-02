@@ -15,14 +15,14 @@ export async function GET(req: Request) {
   const where: Prisma.JobWhereInput = {};
   if (q) {
     where.OR = [
-      { title: { contains: q } },
-      { description: { contains: q } },
-      { companyName: { contains: q } },
+      { title: { contains: q, mode: "insensitive" } },
+      { description: { contains: q, mode: "insensitive" } },
+      { companyName: { contains: q, mode: "insensitive" } },
     ];
   }
   if (category) where.category = { slug: category };
   if (type) where.type = type as Prisma.JobWhereInput["type"];
-  if (location) where.location = { contains: location };
+  if (location) where.location = { contains: location, mode: "insensitive" };
 
   const jobs = await prisma.job.findMany({
     where,
