@@ -280,11 +280,11 @@ export default function Header({ categories }: { categories: Category[] }) {
           )}
 
           <button
-            className="md:hidden grid place-items-center w-9 h-9 rounded-lg border border-slate-200"
+            className="md:hidden grid place-items-center w-11 h-11 rounded-xl border border-slate-200 active:bg-slate-100 transition-colors"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Menu"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path
                 d="M4 6h16M4 12h16M4 18h16"
                 stroke="currentColor"
@@ -315,7 +315,7 @@ export default function Header({ categories }: { categories: Category[] }) {
             <Link
               href="/jobs"
               onClick={() => setMobileOpen(false)}
-              className="py-2 text-sm font-medium text-slate-700"
+              className="flex items-center min-h-[48px] px-3 -mx-1 rounded-xl text-[15px] font-medium text-slate-700 active:bg-slate-100 transition-colors"
             >
               {t.nav.jobs}
             </Link>
@@ -329,9 +329,9 @@ export default function Header({ categories }: { categories: Category[] }) {
                   key={cat.id}
                   href={`/jobs?category=${cat.slug}`}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2 py-2 text-sm text-slate-700"
+                  className="flex items-center gap-2.5 min-h-[46px] px-2 rounded-xl text-sm text-slate-700 active:bg-slate-100 transition-colors"
                 >
-                  <CategoryIcon slug={cat.slug} size={16} className="text-brand-600 shrink-0" />
+                  <CategoryIcon slug={cat.slug} size={18} className="text-brand-600 shrink-0" />
                   <span className="truncate">{cat.name}</span>
                 </Link>
               ))}
@@ -342,7 +342,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="py-2 text-sm font-medium text-slate-700"
+                className="flex items-center min-h-[48px] px-3 -mx-1 rounded-xl text-[15px] font-medium text-slate-700 active:bg-slate-100 transition-colors"
               >
                 {link.label}
               </Link>
@@ -353,14 +353,14 @@ export default function Header({ categories }: { categories: Category[] }) {
                 <Link
                   href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="py-2 text-sm font-medium text-slate-700"
+                  className="flex items-center min-h-[48px] px-3 -mx-1 rounded-xl text-[15px] font-medium text-slate-700 active:bg-slate-100 transition-colors"
                 >
                   {t.common.signIn}
                 </Link>
                 <Link
                   href="/register"
                   onClick={() => setMobileOpen(false)}
-                  className="py-2 text-sm font-semibold text-brand-700"
+                  className="flex items-center justify-center min-h-[48px] mt-1 mb-2 rounded-xl text-[15px] font-semibold text-white bg-brand-600 active:bg-brand-700 transition-colors"
                 >
                   {t.common.signUp}
                 </Link>

@@ -40,20 +40,20 @@ export default function MobileTabBar() {
     {
       href: "/",
       label: t.tabs.home,
-      icon: <HomeIcon size={21} />,
+      icon: <HomeIcon size={23} />,
       active: pathname === "/",
     },
     {
       href: "/jobs",
       label: t.tabs.jobs,
-      icon: <SearchIcon size={21} />,
+      icon: <SearchIcon size={23} />,
       active: pathname.startsWith("/jobs"),
     },
     user
       ? {
           href: dashboardHref,
           label: t.tabs.activity,
-          icon: <InboxIcon size={21} />,
+          icon: <InboxIcon size={23} />,
           active:
             pathname === dashboardHref ||
             pathname.startsWith(`${dashboardHref}/jobs`) ||
@@ -62,20 +62,20 @@ export default function MobileTabBar() {
       : {
           href: "/login",
           label: t.tabs.login,
-          icon: <UserIcon size={21} />,
+          icon: <UserIcon size={23} />,
           active: pathname === "/login",
         },
     user
       ? {
           href: profileHref,
           label: t.tabs.profile,
-          icon: <UserIcon size={21} />,
+          icon: <UserIcon size={23} />,
           active: pathname.startsWith(profileHref),
         }
       : {
           href: "/register",
           label: t.common.signUp,
-          icon: <InboxIcon size={21} />,
+          icon: <InboxIcon size={23} />,
           active: pathname === "/register",
         },
   ];
@@ -93,7 +93,7 @@ export default function MobileTabBar() {
             href={tab.href}
             aria-current={tab.active ? "page" : undefined}
             className={cn(
-              "relative flex flex-col items-center gap-0.5 pb-2 pt-2.5 text-[11px] font-medium select-none",
+              "relative flex flex-col items-center gap-1 pb-2.5 pt-3 min-h-[60px] text-xs font-medium select-none",
               "transition-transform duration-150 active:scale-90",
               tab.active ? "text-brand-600" : "text-slate-500"
             )}
@@ -101,14 +101,14 @@ export default function MobileTabBar() {
             {/* Indicateur au-dessus de l'onglet actif */}
             {tab.active && (
               <span
-                className="tab-indicator absolute top-0 h-[3px] w-9 rounded-b-full bg-brand-600"
+                className="tab-indicator absolute top-0 h-[3px] w-10 rounded-b-full bg-brand-600"
                 aria-hidden="true"
               />
             )}
             {/* Icône + pastille : re-jouées à chaque changement d'onglet */}
             <span
               key={tab.active ? pathname : undefined}
-              className="relative grid place-items-center h-7 w-13 min-w-[3.25rem]"
+              className="relative grid place-items-center h-8 min-w-[3.5rem]"
             >
               {tab.active && (
                 <span
