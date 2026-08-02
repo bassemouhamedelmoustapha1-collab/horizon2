@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n/context";
 import JobCard from "@/components/JobCard";
+import JobAlertCard from "@/components/JobAlertCard";
 import { SearchIcon, MapPinIcon, SlidersIcon, XIcon } from "@/components/Icon";
 import { cn } from "@/lib/utils";
 import type { Job, Category, JobType } from "@/lib/types";
@@ -285,6 +286,7 @@ export default function JobsExplorer({
 
           {/* Résultats (déjà rendus par le serveur) */}
           <div className={isPending ? "opacity-60 transition-opacity" : ""}>
+            <JobAlertCard q={q} category={category} location={location} />
             {jobs.length === 0 ? (
               <div className="text-center py-20 bg-white rounded-2xl border border-slate-100">
                 <p className="text-4xl">🔍</p>

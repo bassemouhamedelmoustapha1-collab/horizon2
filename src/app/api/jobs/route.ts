@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { jobSchema } from "@/lib/validation";
+import { notifyAlertsForJob } from "@/lib/job-alerts";
 import type { Prisma } from "@prisma/client";
 
 // GET /api/jobs?q=&category=&type=&location=
@@ -66,6 +68,16 @@ export async function POST(req: Request) {
       companyName: recruiter.companyName || recruiter.name,
       recruiterId: recruiter.id,
     },
+  });
+
+  // Alertes e-mail : notifiées après l'envoi de la réponse (best-effort,
+  // ne ralentit ni ne bloque jamais la publication).
+  after(async () => {
+    try {
+      await notifyAlertsForJob(job.id);
+    } catch (e) {
+      console.error("[alertes]", e);
+    }
   });
 
   return NextResponse.json({ job });

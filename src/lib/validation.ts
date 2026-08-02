@@ -37,3 +37,10 @@ export const applicationSchema = z.object({
   coverLetter: z.string().max(3000).optional(),
   phone: z.string().max(40).optional(),
 });
+
+export const alertSchema = z.object({
+  email: z.string().email("E-mail invalide"),
+  q: z.string().trim().max(120).optional(),
+  category: z.string().trim().max(80).optional(), // slug de catégorie
+  location: z.string().trim().max(80).optional(),
+});
