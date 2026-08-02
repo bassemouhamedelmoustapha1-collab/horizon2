@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Space_Grotesk } from "next/font/google";
 import { cookies } from "next/headers";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n/context";
 import { AuthProvider, type PublicUser } from "@/lib/auth-context";
@@ -70,6 +71,7 @@ export default async function RootLayout({
             <div className="h-16 md:hidden" aria-hidden="true" />
             <MobileTabBar />
             <BackToTop />
+            <Analytics />
           </AuthProvider>
         </LanguageProvider>
       </body>
