@@ -139,6 +139,26 @@ export function MenuIcon({ size = 20, ...p }: IconProps) {
   );
 }
 
+export function HomeIcon({ size = 20, ...p }: IconProps) {
+  return (
+    <svg {...base(size)} {...p}>
+      <path d="M3 10.5 12 3l9 7.5" />
+      <path d="M5.5 9v10.5A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V9" />
+      <path d="M9.5 21v-6h5v6" />
+    </svg>
+  );
+}
+
+export function SlidersIcon({ size = 20, ...p }: IconProps) {
+  return (
+    <svg {...base(size)} {...p}>
+      <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
+      <circle cx="16" cy="7" r="2.5" />
+      <circle cx="8" cy="17" r="2.5" />
+    </svg>
+  );
+}
+
 export function EyeIcon({ size = 18, ...p }: IconProps) {
   return (
     <svg {...base(size)} {...p}>

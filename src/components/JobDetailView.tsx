@@ -44,10 +44,10 @@ export default function JobDetailView({
 
   return (
     <div className="bg-slate-50/60 min-h-[calc(100vh-4rem)]">
-      <div className="container-x py-10">
+      <div className="container-x py-5 lg:py-10 pb-28 lg:pb-10">
         <Link
           href="/jobs"
-          className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand-600 mb-6"
+          className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-brand-600 mb-4 lg:mb-6"
         >
           <ArrowRightIcon size={15} className="rotate-180" />
           {t.jobs.title}
@@ -57,7 +57,7 @@ export default function JobDetailView({
           {/* ---------- Colonne principale ---------- */}
           <div className="space-y-5">
             {/* En-tête */}
-            <div className="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 card-shadow">
+            <div className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-8 card-shadow">
               <div className="flex items-start gap-4">
                 <CompanyLogo
                   name={job.companyName}
@@ -229,6 +229,34 @@ export default function JobDetailView({
           </div>
         </div>
       </div>
+
+      {/* Barre d'action fixée en bas — mobile uniquement (pattern Indeed) */}
+      <div
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3"
+        style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+      >
+        <div className="flex items-center gap-3">
+          {salary && (
+            <div className="min-w-0 shrink">
+              <p className="text-[11px] text-slate-500 leading-tight">
+                {t.jobs.salary}
+              </p>
+              <p className="text-sm font-bold text-navy-900 truncate">
+                {salary}
+              </p>
+            </div>
+          )}
+          <div className="flex-1 min-w-[55%]">
+            <ApplyCta
+              jobId={job.id}
+              alreadyApplied={alreadyApplied}
+              isCandidate={user?.role === "CANDIDATE"}
+              isRecruiter={user?.role === "RECRUITER"}
+              loggedIn={!!user}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -286,7 +314,7 @@ function ApplyCta({
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 card-shadow">
+    <div className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-8 card-shadow">
       <h2 className="text-lg font-bold text-navy-900 mb-4">{title}</h2>
       {children}
     </div>

@@ -14,14 +14,14 @@ export default function JobCard({ job }: { job: Job }) {
   return (
     <Link
       href={`/jobs/${job.id}`}
-      className="group flex flex-col h-full bg-white rounded-2xl border border-slate-100 p-5 hover:border-brand-200 hover:shadow-[0_6px_24px_rgba(16,34,77,0.08)] transition-all duration-200"
+      className="group flex flex-col h-full bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 active:bg-slate-50 hover:border-brand-200 hover:shadow-[0_6px_24px_rgba(16,34,77,0.08)] transition-all duration-200"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <span className="inline-block text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full mb-3">
             {job.category.name}
           </span>
-          <h3 className="font-semibold text-navy-900 text-lg leading-snug group-hover:text-brand-600 transition-colors truncate">
+          <h3 className="font-semibold text-navy-900 text-base sm:text-lg leading-snug group-hover:text-brand-600 transition-colors truncate">
             {job.title}
           </h3>
         </div>

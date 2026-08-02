@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import type { Lang } from "@/lib/i18n/dictionaries";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileTabBar from "@/components/MobileTabBar";
 import ScrollProgress from "@/components/ScrollProgress";
 import BackToTop from "@/components/BackToTop";
 
@@ -65,6 +66,9 @@ export default async function RootLayout({
             <Header categories={categories} />
             <main className="flex-1">{children}</main>
             <Footer />
+            {/* Espace réservé à la barre d'onglets mobile fixée en bas */}
+            <div className="h-16 md:hidden" aria-hidden="true" />
+            <MobileTabBar />
             <BackToTop />
           </AuthProvider>
         </LanguageProvider>

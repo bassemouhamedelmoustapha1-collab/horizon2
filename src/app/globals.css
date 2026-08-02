@@ -113,6 +113,34 @@ html {
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
+/* Sur mobile, la barre d'onglets occupe le bas : on remonte le bouton */
+@media (max-width: 767px) {
+  .back-to-top {
+    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- Aides mobile ---------- */
+
+/* Rangée de chips défilante sans scrollbar visible */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Bottom sheet (filtres mobile) : glisse depuis le bas */
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.sheet-up { animation: sheetUp 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.overlay-fade { animation: overlayFade 0.2s ease both; }
 
 /* ---------- Utilitaires ---------- */
 .container-x {

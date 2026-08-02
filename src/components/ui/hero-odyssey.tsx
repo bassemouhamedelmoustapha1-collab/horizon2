@@ -99,7 +99,7 @@ export function HeroOdyssey() {
       {/* Contenu (s'estompe et remonte légèrement au scroll) */}
       <motion.div
         style={{ y: contentY, opacity: contentOpacity }}
-        className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[600px] lg:min-h-[680px] flex flex-col justify-center py-16"
+        className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[500px] sm:min-h-[600px] lg:min-h-[680px] flex flex-col justify-center py-10 sm:py-16"
       >
         {/* Étiquettes flottantes (masquées sur mobile) */}
         <div className="hidden lg:block">
@@ -141,7 +141,7 @@ export function HeroOdyssey() {
 
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.08]"
+            className="text-[1.9rem] sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.12] sm:leading-[1.08]"
           >
             {t.home.heroTitle1}
             <br />
@@ -152,7 +152,7 @@ export function HeroOdyssey() {
 
           <motion.p
             variants={itemVariants}
-            className="mt-5 text-base sm:text-lg text-white/60 max-w-xl"
+            className="mt-4 sm:mt-5 text-[15px] sm:text-lg text-white/60 max-w-xl"
           >
             {t.home.heroSubtitle}
           </motion.p>
